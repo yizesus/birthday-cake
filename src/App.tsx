@@ -17,7 +17,7 @@ import Joyride, { ACTIONS, CallBackProps } from "react-joyride";
 
 // const version = import.meta.env.PACKAGE_VERSION;
 
-const src = new URL("/assets/hbd2.mp3", import.meta.url).href;
+const src = new URL("/assets/hbd.mp3", import.meta.url).href;
 
 const steps = [
   {
@@ -77,13 +77,16 @@ function App() {
 
   const [playing, setPlaying] = useState(false);
   const [paused, setPaused] = useState(false);
-  const [run, setRun] = useState(true);
+  // Set run to false to skip tutorial
+  const [run, setRun] = useState(false);
   const [shareMode, setShareMode] = useState(false);
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState("❤️ 𝓂𝒾𝒶 ❤️");
   const nameRef = useRef<HTMLInputElement>(null);
 
-  const visibility = shareMode || playing
+  const [autoStarted, setAutoStarted] = useState(false);
+
+  const visibility = shareMode || playing;
 
   const lightCandle = useCallback(() => setCandleVisible(true), []);
 
@@ -118,13 +121,17 @@ function App() {
     lightCandle();
   }, [lightCandle, startAudio]);
 
-  const stop = useCallback(() => {
-    stopAudio();
-    turnOffTheCandle();
-    setTimeout(() => {
-      nameRef.current ? nameRef.current.focus() : undefined;
-    }, 0);
-  }, [stopAudio, turnOffTheCandle]);
+  useEffect(() => {
+    if (!autoStarted) {
+      const handleUserInteraction = () => {
+        start();
+        setAutoStarted(true);
+        window.removeEventListener("click", handleUserInteraction);
+      };
+      window.addEventListener("click", handleUserInteraction);
+      return () => window.removeEventListener("click", handleUserInteraction);
+    }
+  }, [autoStarted, start]);
 
   const blowCandles = useCallback(async (stream: MediaStream) => {
     try {
@@ -170,7 +177,7 @@ function App() {
     [setRun]
   );
 
-  const onEnded = useCallback(() => { }, []);
+  const onEnded = useCallback(() => {}, []);
 
   const onKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -213,6 +220,11 @@ function App() {
       setShareMode(true);
     }
   }, []);
+
+  // Auto start music and candle on mount
+  useEffect(() => {
+    start();
+  }, [start]);
 
   return (
     <div
@@ -281,7 +293,7 @@ function App() {
         spotlightClicks
       />
 
-      <audio {...{ src, ref: audioRef, preload: "auto", onEnded }} />
+      <audio {...{ src, ref: audioRef, preload: "auto", onEnded, loop: true }} />
 
       <div>
         <Name

@@ -2,14 +2,11 @@ import { Fragment } from "react/jsx-runtime";
 import {
   TbPlayerPlayFilled,
   TbPlayerPauseFilled,
-  TbPlayerStopFilled,
   TbInfoCircleFilled,
   TbFlame,
   TbFlameOff,
-  TbShare3,
 } from "react-icons/tb";
 import { useCallback } from "react";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import { toast } from "react-toastify";
 
 const buttonStyle = {
@@ -26,7 +23,6 @@ export const CakeActions = ({
   run,
   start,
   pause,
-  stop,
   toggleLightCandle,
   setRun,
   playing,
@@ -51,12 +47,6 @@ any) => {
             <TbPlayerPauseFilled />
           </button>
         ) : null}
-        {playing ? (
-          <button id="stop" style={buttonStyle} onClick={stop}>
-            {/* Stop */}
-            <TbPlayerStopFilled />
-          </button>
-        ) : null}
         <button
           id="toggle-candle"
           style={buttonStyle}
@@ -71,14 +61,6 @@ any) => {
             <TbInfoCircleFilled />
           </button>
         ) : null}
-        <CopyToClipboard
-          text={[window.location.href, "shared=true"].join("&")}
-          onCopy={() => toast("Copied to clipboard!")}
-        >
-          <button id="share" style={buttonStyle}>
-            <TbShare3 />
-          </button>
-        </CopyToClipboard>
       </Fragment>
     );
   }, [
@@ -88,7 +70,6 @@ any) => {
     paused,
     playing,
     start,
-    stop,
     toggleLightCandle,
   ]);
 
@@ -103,10 +84,6 @@ any) => {
           {/* Pause */}
           <TbPlayerPauseFilled />
         </button>
-        <button id="stop" style={buttonStyle} onClick={stop} disabled={run}>
-          {/* Stop */}
-          <TbPlayerStopFilled />
-        </button>
         <button
           id="toggle-candle"
           style={buttonStyle}
@@ -116,12 +93,9 @@ any) => {
           {/* {candleVisible ? "Blow out" : "Light"} */}
           {candleVisible ? <TbFlameOff /> : <TbFlame />}
         </button>
-        <button id="share" style={buttonStyle}>
-          <TbShare3 />
-        </button>
       </Fragment>
     );
-  }, [candleVisible, pause, run, start, stop, toggleLightCandle]);
+  }, [candleVisible, pause, run, start, toggleLightCandle]);
 
   return (
     <div
