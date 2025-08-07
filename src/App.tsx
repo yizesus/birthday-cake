@@ -90,8 +90,6 @@ function App() {
 
   const lightCandle = useCallback(() => setCandleVisible(true), []);
 
-  const turnOffTheCandle = useCallback(() => setCandleVisible(false), []);
-
   const toggleLightCandle = useCallback(
     () => setCandleVisible((prevState) => !prevState),
     []
@@ -107,13 +105,6 @@ function App() {
   const pause = useCallback(() => {
     audioRef.current.pause();
     setPaused(true);
-  }, []);
-
-  const stopAudio = useCallback(() => {
-    setPlaying(false);
-    audioRef.current.pause();
-    audioRef.current.currentTime = 0;
-    setPaused(false);
   }, []);
 
   const start = useCallback(() => {
@@ -363,7 +354,6 @@ function App() {
             run,
             start,
             pause,
-            stop,
             toggleLightCandle,
             setRun,
             playing,

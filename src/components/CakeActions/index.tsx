@@ -7,7 +7,6 @@ import {
   TbFlameOff,
 } from "react-icons/tb";
 import { useCallback } from "react";
-import { toast } from "react-toastify";
 
 const buttonStyle = {
   color: "#ffffff",
