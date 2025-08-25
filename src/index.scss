@@ -96,12 +96,27 @@ body {
 
 .cake {
   position: absolute;
+  z-index: 2;
   width: 250px;
   height: 200px;
   top: 50%;
   left: 50%;
-  margin-top: -70px;
+  margin-top: -30px;
   margin-left: -125px;
+}
+
+.birthday-note {
+  position: absolute;
+  z-index: 3;
+  background: rgba(0,0,0,0); /* Optional: for readability */
+  margin: 25px;
+  text-align: center;
+  white-space: pre-line;
+}
+
+.note-button {
+  position: relative;
+  z-index: 4;
 }
 
 .plate {
